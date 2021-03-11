@@ -25,10 +25,8 @@ async function searchShows(query) {
     const shows = res.data.map(function (show) {
       return show.show;
     })
-    console.log(shows);
     populateShows(shows);
   } catch (e) {
-    console.log(e);
     alert('Request failed!');
   }
 }
@@ -82,7 +80,7 @@ $("#search-form").on("submit", async function handleSearch (evt) {
 
   $("#episodes-area").hide();
 
-  let shows = await searchShows(query);
+  searchShows(query);
 
  // populateShows(shows);
 });
@@ -102,10 +100,10 @@ async function getEpisodes(id) {
   const show = await axios.get(`http://api.tvmaze.com/shows/${id}`)
   const showName = show.data.name;
   const episodeList = episodes.data.map((episode) => episode)
-  console.log(episodeList);
   populateEpisodes(episodeList, showName);
 }
 
+//creates episode list
 function populateEpisodes(list, show) {
   const $listArea = $('#episodes-area')
   $listArea.append($(`<b>${show}</b>`))
@@ -119,7 +117,7 @@ function populateEpisodes(list, show) {
   $("#episodes-area").show();
 }
 
-
+//adds functionality to the episodes button
 
 $('#shows-list').on('click', ".getEpisodes", function (e) {
   const id = $(e.target).closest('.Show').data('show-id');
